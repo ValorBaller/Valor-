@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX_BOOKS 100
+#define MAX_USERS 50
 
 struct Book {
     char isbn[20];
@@ -14,7 +16,7 @@ struct Book {
 };
 
 struct User {
-    int userid;
+    char userid[10];
     char username[50];
     char password[50];
     char role[10];
@@ -22,22 +24,22 @@ struct User {
 
 void addBook(struct Book books[], int *numBooks) {
     printf("Nhap ISBN cua sach: ");
-    scanf("%s", books[*numBooks].isbn);
-
+    gets(books[*numBooks].isbn);
+	fflush(stdin);
     printf("Nhap ten sach: ");
-    scanf("%s", books[*numBooks].title);
+    gets(books[*numBooks].title);
 	
 	printf("Nhap chu de cua sach: ");
-	scanf("%s",books[*numBooks].subject);
+	gets(books[*numBooks].subject);
 	
 	printf("Nhap ten tac gia: ");
-    scanf("%s", books[*numBooks].author);
+    gets(books[*numBooks].author);
     
     printf("Nha xuat ban cua sach la: ");
-    scanf("%s", books[*numBooks].publisher);
+    gets(books[*numBooks].publisher);
     
     printf("Ngay xuat ban cua sach: ");
-    scanf("%s", books[*numBooks].date);
+    gets(books[*numBooks].date);
     
     printf("Nhap so trang: ");
     scanf("%d",&books[*numBooks].pages);
@@ -53,31 +55,31 @@ void addBook(struct Book books[], int *numBooks) {
 void displayBooks(struct Book books[], int numBooks) {
     printf("\nDanh sach sach trong thu vien:\n");
     for (int i = 0; i < numBooks; i++) {
-        printf("ISBN: %s\t, Ten sach: %s\t, Tac gia: %s\t, Chu de cua sach: %s\t, Nha xuat ban: %s\t, So trang: %d\t, So ban copy: %d\t", books[i].isbn, books[i].title, books[i].author, books[i].subject, books[i].publisher,books[i].pages,books[i].copies);
+        printf("ISBN: %s\t Ten sach: %s\t Tac gia: %s\t Chu de cua sach: %s\t Nha xuat ban: %s\t So trang: %d\t So ban copy: %d\t", books[i].isbn, books[i].title, books[i].author, books[i].subject, books[i].publisher,books[i].pages,books[i].copies);
     }
 }
 
 void editBook(struct Book books[], int numBooks) {
     char isbn[20];
-    printf("Nhap ISBN cua sach can sua:\x1b[41m ");
-    scanf("%s", isbn);
-
+    printf("Nhap ISBN cua sach can sua: ");
+    gets(isbn);
+	fflush(stdin);
     for (int i = 0; i < numBooks; i++) {
         if (strcmp(books[i].isbn, isbn) == 0) {
             printf("Nhap ten sach moi: ");
-            scanf("%s", books[i].title);
-
+            gets(books[i].title);
+			fflush(stdin);
             printf("Nhap chu de moi cua sach: ");
-			scanf("%s",books[i].subject);
+			gets(books[i].subject);
 			
 			printf("Nhap ten tac gia moi: ");
-		    scanf("%s", books[i].author);
+		    gets(books[i].author);
 		    
 		    printf("Nha xuat ban moi cua sach la: ");
-		    scanf("%s", books[i].publisher);
+		    gets(books[i].publisher);
 		    
 		    printf("Ngay xuat ban moi cua sach: ");
-		    scanf("%s", books[i].date);
+		    gets(books[i].date);
 		    
 		    printf("Nhap so trang: ");
 		    scanf("%d",&books[i].pages);
@@ -110,38 +112,39 @@ void deleteBook(struct Book books[], int *numBooks) {
 
 void addUser(struct User users[], int *numUsers) {
     printf("Nhap ma nguoi dung: ");
-    scanf("%d", &users[*numUsers].userid);
-	 fflush(stdin);
+	gets(users[*numUsers].userid);
+fflush(stdin);
     printf("Nhap ten dang nhap: ");
-    scanf("%s", users[*numUsers].username);
-	 fflush(stdin);
+    gets(users[*numUsers].username);
+	fflush(stdin);
     printf("Nhap mat khau: ");
-    scanf("%s", users[*numUsers].password);
+    gets(users[*numUsers].password);
 
     printf("Nhap cap nguoi dung (user/admin): ");
-    scanf("%s", users[*numUsers].role);
+    gets(users[*numUsers].role);
 
     (*numUsers)++;
 }
 
 void editUser(struct User users[], int numUsers) {
-    int userid;
+    char userid[10];
     printf("Nhap ma nguoi dung can sua: ");
-    scanf("%d", &userid);
+   gets(userid);
 
+	
     for (int i = 0; i < numUsers; i++) {
-        if (users[i].userid == userid) {
+        if (strcmp(users[i].userid,userid )== 0) {
             printf("Nhap ten dang nhap moi: ");
-            scanf("%s", users[i].username);
+            gets(users[i].username);
 		 	fflush(stdin);
 		    printf("Nhap ten dang nhap moi: ");
-		    scanf("%s", users[i].username);
-			 fflush(stdin);
+		    gets(users[i].username);
+		
 		    printf("Nhap mat khau moi: ");
-		    scanf("%s", users[i].password);
+		    gets(users[i].password);
 		
 		    printf("Nhap cap nguoi dung (user/admin): ");
-		    scanf("%s", users[i].role);
+		    gets(users[i].role);
 
             printf("Thong tin nguoi dung da duoc cap nhat.\n");
             return;
@@ -151,12 +154,13 @@ void editUser(struct User users[], int numUsers) {
 }
 
 void deleteUser(struct User users[], int *numUsers) {
-    int userid;
+    char userid[10];
     printf("Nhap ma nguoi dung can xoa: ");
-    scanf("%d", &userid);
+    gets(userid);
+    fflush(stdin);
 
     for (int i = 0; i < *numUsers; i++) {
-        if (users[i].userid == userid) {
+        if (strcmp(users[i].userid,userid )== 0) {
             users[i] = users[*numUsers - 1];
             (*numUsers)--;
             printf("Xoa nguoi dung thanh cong.\n");
@@ -170,20 +174,18 @@ void login(struct User users[], int numUsers) {
     char username[50];
     char password[50];
     printf("Nhap ten dang nhap: ");
-    scanf("%s", username);
-
+    gets(username);
+	fflush(stdin);
     printf("Nhap mat khau: ");
-    scanf("%s", password);
+    gets(password);
 
     for (int i = 0; i < numUsers; i++) {
         if (strcmp(users[i].username, username) == 0 && strcmp(users[i].password, password) == 0) {
             printf("Dang nhap thanh cong. Chao mung %s!\n", users[i].username);
             if (strcmp(users[i].role, "admin") == 0) {
-                // Hi?n th? menu cho ngu?i dùng có quy?n admin
-                // ...
+              printf("Chao mung admin");
             } else {
-                // Hi?n th? menu cho ngu?i dùng không có quy?n admin
-                // ...
+               
             }
             return;
         }
@@ -211,11 +213,11 @@ int main() {
 
     int choice;
     do {
-        printf("\n========== \x1b[4m%sQ%sU%sA%sN%s \x1b[4m%sL%sY%s \x1b[4m%sT%sH%sU%s \x1b[4m%sV%sI%sE%sN%s ===========\n",RED,GREEN,YELLOW,BLUE,RESET,MAGENTA,WHITE,RESET,ORANGE,GREEN,CYAN,RESET,YELLOW,BLUE,RED,CYAN,RESET);
-        printf("%s1. Them sach moi%s",RED,RESET);
+printf("\n========== \x1b[4m%sQ%sU%sA%sN%s \x1b[4m%sL%sY%s \x1b[4m%sT%sH%sU%s \x1b[4m%sV%sI%sE%sN%s ===========\n",RED,GREEN,YELLOW,BLUE,RESET,MAGENTA,WHITE,RESET,ORANGE,GREEN,CYAN,RESET,YELLOW,BLUE,RED,CYAN,RESET);
+printf("%s1. Them sach moi%s",RED,RESET);
         printf("\n%s2. Hien thi danh sach sach%s",ORANGE,RESET);
         printf("\n%s3. Sua thong tin sach%s",GREEN,RESET);
-        printf("\n%s4. Xoa sach%s",RED,RESET);
+printf("\n%s4. Xoa sach%s",RED,RESET);
         printf("\n%s5. Them nguoi dung moi%s",BLUE,RESET);
         printf("\n%s6. Sua thong tin nguoi dung%s",CYAN,RESET);
         printf("\n%s7. Xoa nguoi dung%s",WHITE,RESET);
@@ -223,7 +225,7 @@ int main() {
         printf("\n%s0. Thoat%s\n",BROWN,RESET);
         printf("Nhap lua chon cua ban: ");
         scanf("%d", &choice);
-
+		getchar();
         switch (choice) {
             case 1:
                 addBook(books, &numBooks);
